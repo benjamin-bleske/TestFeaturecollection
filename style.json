@@ -1,0 +1,171 @@
+{
+ "version": 8,
+ "name": "lagis_flaechen",
+ "glyphs": "https://tiles.cismet.de/fonts/{fontstack}/{range}.pbf",
+ "metadata": {
+  "carmaConf": {
+   "layerInfo": {
+    "title": "LAGIS Flächen",
+    "description": "Liegenschaftsflächen (LAGIS) aus Lagis_Flächen_repariert.gpkg, 12.929 Flurstücke, Farbe nach Ressort (104 gruen, 103 blau, 403 orange, GMW violett, 208 tuerkis, 209 magenta, WAW oliv, in Bearbeitung grau, uebrige und leere Ressorts braun). Quelle: Testdatensatz, EPSG:25832 nach EPSG:4326 konvertiert und auf 1 m vereinfacht.",
+    "keywords": [
+     "carmaconf://infoBoxMapping:function createInfoBoxInfo(p) { function v(x) { return x === null || x === undefined || x === '' ? '<span style=\"color:#bbb;\">—</span>' : String(x); } function row(k, x) { return '<div style=\"display:grid;grid-template-columns:120px 1fr;border-bottom:1px solid #f0f0f0;\"><div style=\"padding:1px 6px;color:#777;\">' + k + '</div><div style=\"padding:1px 6px;color:#222;\">' + v(x) + '</div></div>'; } const table = '<div style=\"font-size:12px;color:#333;\">' + row('Gemarkung', p.gemarkungs) + row('Flur', p.flur) + row('Flurstück', p.fstnr_z + (p.fstnr_n ? '/' + p.fstnr_n : '')) + row('Dienststelle', p.dienststel) + row('Ressort', p.ressort) + row('Abteilung', p.abteilung) + '</div>'; return { header: 'LAGIS-Fläche', headerColor: '#2E7D32', title: 'Flurstück ' + p.flurstueck, subtitle: '<html>' + table + '</html>' }; }",
+     "carmaconf://blockLegacyGetFeatureInfo"
+    ],
+    "tags": [
+     "LAGIS",
+     "Liegenschaften",
+     "Flurstücke"
+    ]
+   }
+  }
+ },
+ "sources": {
+  "lagis": {
+   "type": "geojson",
+   "data": "https://benjamin-bleske.github.io/TestFeaturecollection/lagis_flaechen.geojson",
+   "promoteId": "fid"
+  }
+ },
+ "layers": [
+  {
+   "id": "lagis-fill",
+   "type": "fill",
+   "source": "lagis",
+   "paint": {
+    "fill-color": [
+     "match",
+     [
+      "coalesce",
+      [
+       "get",
+       "ressort"
+      ],
+      "unbekannt"
+     ],
+     "104",
+     "#2E7D32",
+     "103",
+     "#1565C0",
+     "403",
+     "#EF6C00",
+     "GMW",
+     "#6A1B9A",
+     "208",
+     "#00838F",
+     "209",
+     "#AD1457",
+     "WAW",
+     "#827717",
+     "in Bearbeitung",
+     "#9E9E9E",
+     "#795548"
+    ],
+    "fill-opacity": 0.45
+   }
+  },
+  {
+   "id": "lagis-outline",
+   "type": "line",
+   "source": "lagis",
+   "minzoom": 13,
+   "paint": {
+    "line-color": [
+     "match",
+     [
+      "coalesce",
+      [
+       "get",
+       "ressort"
+      ],
+      "unbekannt"
+     ],
+     "104",
+     "#2E7D32",
+     "103",
+     "#1565C0",
+     "403",
+     "#EF6C00",
+     "GMW",
+     "#6A1B9A",
+     "208",
+     "#00838F",
+     "209",
+     "#AD1457",
+     "WAW",
+     "#827717",
+     "in Bearbeitung",
+     "#9E9E9E",
+     "#795548"
+    ],
+    "line-width": [
+     "interpolate",
+     [
+      "linear"
+     ],
+     [
+      "zoom"
+     ],
+     13,
+     0.4,
+     18,
+     1.5
+    ]
+   }
+  },
+  {
+   "id": "lagis-label",
+   "type": "symbol",
+   "source": "lagis",
+   "minzoom": 17,
+   "layout": {
+    "text-field": [
+     "get",
+     "flurstueck"
+    ],
+    "text-font": [
+     "Noto Sans Regular"
+    ],
+    "text-size": [
+     "interpolate",
+     [
+      "linear"
+     ],
+     [
+      "zoom"
+     ],
+     17,
+     10,
+     20,
+     14
+    ]
+   },
+   "paint": {
+    "text-color": "#222",
+    "text-halo-color": "#fff",
+    "text-halo-width": 1.5
+   }
+  },
+  {
+   "id": "lagis-selection",
+   "type": "line",
+   "source": "lagis",
+   "paint": {
+    "line-color": "#3A7CEB",
+    "line-width": 4,
+    "line-opacity": [
+     "case",
+     [
+      "boolean",
+      [
+       "feature-state",
+       "selected"
+      ],
+      false
+     ],
+     1,
+     0
+    ]
+   }
+  }
+ ]
+}
